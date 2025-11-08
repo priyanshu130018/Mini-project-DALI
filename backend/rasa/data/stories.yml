@@ -1,0 +1,58 @@
+version: "3.1"
+
+stories:
+
+- story: tell weather
+  steps:
+    - intent: ask_weather
+    - action: utter_weather
+
+- story: tell joke
+  steps:
+    - intent: ask_joke
+    - action: utter_joke
+
+- story: tell fact
+  steps:
+    - intent: ask_fact
+    - action: action_tell_fact
+
+- story: play music
+  steps:
+    - intent: play_music
+    - action: action_play_music
+
+- story: change music
+  steps:
+    - intent: change_music
+    - action: action_change_music
+
+- story: open app
+  steps:
+    - intent: open_app
+    - action: action_open_app
+
+- story: close app
+  steps:
+    - intent: close_app
+    - action: action_close_app
+
+- story: tell time
+  steps:
+    - intent: tell_time
+    - action: action_tell_time
+
+- story: tell date
+  steps:
+    - intent: tell_date
+    - action: action_tell_date
+
+- story: shutdown pc
+  steps:
+    - intent: shutdown_pc
+    - action: action_shutdown_pc
+
+- story: restart pc
+  steps:
+    - intent: restart_pc
+    - action: action_restart_pc

@@ -1,0 +1,20 @@
+{
+  "0": "ask_creator",
+  "1": "ask_fact",
+  "2": "ask_joke",
+  "3": "ask_weather",
+  "4": "change_music",
+  "5": "close_app",
+  "6": "goodbye",
+  "7": "greet",
+  "8": "open_app",
+  "9": "play_music",
+  "10": "restart_pc",
+  "11": "shutdown_pc",
+  "12": "stop_music",
+  "13": "tell_date",
+  "14": "tell_time",
+  "15": "thank_you",
+  "16": "volume_down",
+  "17": "volume_up"
+}

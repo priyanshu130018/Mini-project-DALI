@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DALI Voice Assistant - Web Interface</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="title-section">
+                <div class="logo">🎙️</div>
+                <h1 class="title">DALI</h1>
+            </div>
+            <div class="status">
+                <div class="status-dot disconnected"></div>
+                <span class="status-text">Disconnected</span>
+            </div>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="chat-container" id="chatContainer">
+            <div class="welcome-message">
+                ✨ Connected to DALI Voice Assistant<br>
+                Type or speak to chat!
+            </div>
+
+            <!-- Typing Indicator -->
+            <div class="typing-indicator hidden" id="typingIndicator">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+
+        <!-- Language Info -->
+        <div class="language-info" id="languageInfo">
+            🇬🇧 english
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+            <div class="input-container">
+                <!-- Microphone Button (Voice Input) -->
+                <button class="btn mic-btn" id="micBtn" title="Click to speak">
+                    🎤
+                </button>
+
+                <!-- Text Input -->
+                <input 
+                    type="text" 
+                    class="message-input" 
+                    id="messageInput" 
+                    placeholder="Type your message here..." 
+                    disabled
+                >
+
+                <!-- Speaker Button (TTS Toggle) -->
+                <button class="btn speaker-btn" id="speakerBtn" title="Toggle voice output">
+                    🔊
+                </button>
+
+                <!-- Send Button -->
+                <button class="btn send-btn" id="sendBtn" disabled>
+                    📤
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

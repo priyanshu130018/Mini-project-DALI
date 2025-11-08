@@ -1,0 +1,79 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - ask_name
+  - ask_weather
+  - ask_joke
+  - ask_fact
+  - play_music
+  - change_music
+  - stop_music
+  - open_app
+  - close_app
+  - tell_time
+  - tell_date
+  - shutdown_pc
+  - restart_pc
+  - volume_up
+  - volume_down
+  - ask_creator
+  - thank_you
+
+entities:
+  - song
+  - app
+
+responses:
+  utter_greet:
+    - text: "Hello! How can I help you today?"
+    - text: "Hey there! What would you like me to do?"
+
+  utter_goodbye:
+    - text: "Goodbye! Take care!"
+    - text: "See you later!"
+
+  utter_iamabot:
+    - text: "I’m DALI — your AI voice assistant."
+
+  utter_happy:
+    - text: "That’s great to hear!"
+
+  utter_name:
+    - text: "I’m DALI — your helpful assistant created by Priyanshu."
+
+  utter_weather:
+    - text: "It’s sunny with a light breeze."
+
+  utter_joke:
+    - text: "Why did the computer go to therapy? It had too many bugs!"
+
+  utter_creator:
+    - text: "I was created by Priyanshu Ranjan Verma."
+
+  utter_thank_you:
+    - text: "You’re welcome!"
+    - text: "Glad I could help!"
+
+actions:
+  - action_play_music
+  - action_change_music
+  - action_volume_up
+  - action_volume_down
+  - action_open_app
+  - action_close_app
+  - action_tell_time
+  - action_tell_date
+  - action_shutdown_pc
+  - action_restart_pc
+  - action_tell_fact
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

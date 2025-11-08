@@ -1,0 +1,66 @@
+1
+00:00:08,660 --> 00:00:11,660
+[2025-11-07 03:41:27]
+YOU (ENGLISH): hello
+BOT: Hey! How are you?
+
+2
+00:00:14,906 --> 00:00:17,906
+[2025-11-07 13:32:18]
+YOU (ENGLISH): no
+BOT: Sorry, I couldn't reach the assistant right now.
+
+3
+00:00:17,019 --> 00:00:20,019
+[2025-11-07 03:40:36]
+YOU (ENGLISH): hello
+BOT: Sorry, I couldn't reach the assistant right now.
+
+4
+00:00:17,802 --> 00:00:20,802
+[2025-11-07 03:41:36]
+YOU (ENGLISH): what is the time
+BOT: Hey! How are you?
+
+5
+00:00:24,982 --> 00:00:27,982
+[2025-11-07 03:41:43]
+YOU (ENGLISH): okay bye
+BOT: Bye
+
+6
+00:00:26,998 --> 00:00:29,998
+[2025-11-07 13:32:30]
+YOU (ENGLISH): sir
+BOT: Sorry, I couldn't reach the assistant right now.
+
+7
+00:00:40,193 --> 00:00:43,193
+[2025-11-07 13:32:44]
+YOU (ENGLISH): sir
+BOT: Great, carry on!
+
+8
+00:00:47,228 --> 00:00:50,228
+[2025-11-07 13:32:51]
+YOU (ENGLISH): income glory of
+BOT: Great, carry on!
+
+9
+00:00:53,819 --> 00:00:56,819
+[2025-11-07 13:32:57]
+YOU (ENGLISH): break down
+BOT: Bye
+
+10
+00:00:59,460 --> 00:01:02,460
+[2025-11-07 13:33:03]
+YOU (ENGLISH): but
+BOT: Bye
+
+11
+00:01:05,680 --> 00:01:08,680
+[2025-11-07 13:33:09]
+YOU (ENGLISH): smart looking
+BOT: Great, carry on!
+

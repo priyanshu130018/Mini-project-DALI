@@ -1,0 +1,18 @@
+{
+  "model_paths": {
+    "english": "model/vosk-model-en-in-0.5",
+    "hindi": "model/vosk-model-hi-0.22"
+  },
+  "rasa_url": "http://localhost:5005/webhooks/rest/webhook",
+  "sample_rate": 16000,
+  "frames_per_buffer": 8000,
+  "tts_rate": 170,
+  "wake_word_sensitivity": 0.8,
+  "command_timeout": 10,
+  "silence_threshold": 1.5,
+  "database": {
+    "path": "conversations.db",
+    "auto_cleanup_days": 30,
+    "enable_export": true
+  }
+}

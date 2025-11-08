@@ -1,0 +1,166 @@
+version: "3.1"
+
+nlu:
+# --- Basic intents ---
+- intent: greet
+  examples: |
+    - hello
+    - hey
+    - hi
+    - good morning
+    - good evening
+    - howdy
+    - what's up
+    - greetings
+
+- intent: goodbye
+  examples: |
+    - bye
+    - see you
+    - goodbye
+    - catch you later
+    - talk to you later
+    - gotta go
+    - take care
+
+- intent: ask_creator
+  examples: |
+    - who created you
+    - who made you
+    - who is your developer
+    - who built you
+    - who designed you
+    - tell me about your creator
+
+- intent: thank_you
+  examples: |
+    - thank you
+    - thanks
+    - appreciate it
+    - thanks a lot
+    - thank you so much
+
+# --- Fun & info ---
+- intent: ask_joke
+  examples: |
+    - tell me a joke
+    - make me laugh
+    - say something funny
+    - can you tell me a joke
+    - joke please
+    - entertain me
+
+- intent: ask_fact
+  examples: |
+    - tell me a random fact
+    - say a fun fact
+    - give me an interesting fact
+    - tell me something cool
+    - share a fact
+    - surprise me with a fact
+    - I want to hear something interesting
+    - do you know any fun facts
+    - tell me something I don't know
+
+- intent: ask_weather
+  examples: |
+    - what's the weather
+    - tell me the weather
+    - is it sunny
+    - how's the weather today
+    - weather forecast
+    - what's it like outside
+
+# --- Music control ---
+- intent: play_music
+  examples: |
+    - play some music
+    - play [Believer](song)
+    - play [Shape of You](song) by Ed Sheeran
+    - I want to listen to music
+    - start playing music
+    - put on some tunes
+
+- intent: change_music
+  examples: |
+    - next song
+    - skip this track
+    - change the music
+    - play next
+    - skip
+    - next track please
+
+- intent: stop_music
+  examples: |
+    - stop the music
+    - pause
+    - stop playing
+    - turn off music
+
+# --- App control ---
+- intent: open_app
+  examples: |
+    - open [Chrome](app)
+    - start [Notepad](app)
+    - launch [Calculator](app)
+    - open [Excel](app)
+    - can you open [Word](app)
+    - start [Browser](app)
+
+- intent: close_app
+  examples: |
+    - close [Chrome](app)
+    - shut down [Notepad](app)
+    - exit [Calculator](app)
+    - close [Excel](app)
+    - terminate [Word](app)
+
+# --- System info ---
+- intent: tell_time
+  examples: |
+    - what time is it
+    - tell me the time
+    - what's the current time
+    - time please
+    - current time
+
+- intent: tell_date
+  examples: |
+    - what's the date
+    - tell me today's date
+    - what day is it
+    - current date
+    - today's date
+
+# --- System control ---
+- intent: shutdown_pc
+  examples: |
+    - shutdown computer
+    - turn off pc
+    - shutdown system
+    - power off
+    - shut down the computer
+
+- intent: restart_pc
+  examples: |
+    - restart computer
+    - reboot pc
+    - restart system
+    - reboot
+    - restart the computer
+
+- intent: volume_up
+  examples: |
+    - increase volume
+    - volume up
+    - turn up the volume
+    - louder
+    - make it louder
+
+- intent: volume_down
+  examples: |
+    - decrease volume
+    - volume down
+    - turn down the volume
+    - quieter
+    - make it quieter
