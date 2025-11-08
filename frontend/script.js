@@ -1,21 +1,15 @@
-// ========================================
-// DALI Client with Voice Input
-// ========================================
-
 class DALIClient {
     constructor() {
         this.ws = null;
-        this.wsUrl = 'ws://localhost:8765';
+        this.wsUrl = 'ws://localhost:8765/ws';
+        this.voiceMode = false;
         this.isConnected = false;
         this.ttsEnabled = true;
-        this.synth = window.speechSynthesis;
-        
-        // Voice Recognition
         this.recognition = null;
         this.isListening = false;
-        this.initVoiceRecognition();
-        
+
         this.initElements();
+        this.initVoiceRecognition();
         this.initEventListeners();
         this.connect();
     }
@@ -30,55 +24,114 @@ class DALIClient {
         this.speakerBtn = document.getElementById('speakerBtn');
         this.typingIndicator = document.getElementById('typingIndicator');
         this.languageInfo = document.getElementById('languageInfo');
-    }
-
-    initVoiceRecognition() {
-        // Check if browser supports Web Speech API
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            this.recognition = new SpeechRecognition();
-            this.recognition.continuous = false;
-            this.recognition.interimResults = false;
-            this.recognition.lang = 'en-US';
-
-            this.recognition.onstart = () => {
-                this.isListening = true;
-                this.micBtn.classList.add('listening');
-                this.micBtn.textContent = '🔴';
-                this.addSystemMessage('🎤 Listening...');
-            };
-
-            this.recognition.onresult = (event) => {
-                const transcript = event.results[0][0].transcript;
-                this.messageInput.value = transcript;
-                this.sendMessage();
-            };
-
-            this.recognition.onerror = (event) => {
-                console.error('Speech recognition error:', event.error);
-                this.addSystemMessage(`❌ Voice error: ${event.error}`);
-                this.stopListening();
-            };
-
-            this.recognition.onend = () => {
-                this.stopListening();
-            };
-        } else {
-            console.warn('Speech recognition not supported');
-        }
+        this.voiceToggleBtn = document.getElementById('voiceToggleBtn'); // optional manual toggle
     }
 
     initEventListeners() {
         this.sendBtn.addEventListener('click', () => this.sendMessage());
         this.micBtn.addEventListener('click', () => this.toggleListening());
         this.speakerBtn.addEventListener('click', () => this.toggleTTS());
-        
         this.messageInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 this.sendMessage();
             }
         });
+
+        if (this.voiceToggleBtn) {
+            this.voiceToggleBtn.addEventListener('click', () => {
+                this.voiceMode = !this.voiceMode;
+                if (this.voiceMode) {
+                    this.startListening();
+                    this.showListeningAnimation();
+                } else {
+                    this.stopListening();
+                    this.hideListeningAnimation();
+                }
+            });
+        }
+    }
+
+    connect() {
+        this.ws = new WebSocket(this.wsUrl);
+        this.ws.onopen = () => this.onConnect();
+        this.ws.onmessage = (event) => this.onMessage(event);
+        this.ws.onerror = (error) => this.onError(error);
+        this.ws.onclose = () => this.onDisconnect();
+    }
+
+    onConnect() {
+        this.isConnected = true;
+        this.updateStatus(true, 'Connected');
+        this.messageInput.disabled = false;
+        this.sendBtn.disabled = false;
+        this.micBtn.disabled = false;
+        this.speakerBtn.disabled = false;
+        this.addSystemMessage('✅ Connected to DALI Assistant');
+    }
+
+    onMessage(event) {
+        const msg = JSON.parse(event.data);
+        if (msg.event === 'voice_mode') {
+            this.voiceMode = msg.enabled;
+            if (this.voiceMode) {
+                this.startListening();
+                this.showListeningAnimation();
+            } else {
+                this.stopListening();
+                this.hideListeningAnimation();
+            }
+        }
+        if (msg.text) {
+            this.hideTypingIndicator();
+            this.addBotMessage(msg.text);
+            if (msg.speak && this.ttsEnabled) {
+                this.speak(msg.text);
+            }
+            if (msg.language) {
+                this.updateLanguage(msg.language);
+            }
+        }
+        if (msg.type === 'system') {
+            this.addSystemMessage(msg.message);
+        }
+        if (msg.type === 'error') {
+            this.addSystemMessage(`❌ ${msg.message}`);
+        }
+    }
+
+    initVoiceRecognition() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            this.addSystemMessage('❌ Voice input not supported in this browser');
+            return;
+        }
+        this.recognition = new SpeechRecognition();
+        this.recognition.continuous = false;
+        this.recognition.interimResults = false;
+        this.recognition.lang = 'en-US';
+
+        this.recognition.onstart = () => {
+            this.isListening = true;
+            this.micBtn.classList.add('listening');
+            this.micBtn.textContent = '🔴';
+            this.addSystemMessage('🎤 Listening...');
+        };
+
+        this.recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            this.messageInput.value = transcript;
+            this.sendMessage();
+        };
+
+        this.recognition.onerror = (event) => {
+            this.addSystemMessage(`❌ Voice error: ${event.error}`);
+            this.stopListening();
+        };
+
+        this.recognition.onend = () => {
+            this.stopListening();
+        };
     }
 
     toggleListening() {
@@ -86,7 +139,6 @@ class DALIClient {
             this.addSystemMessage('❌ Voice input not supported in this browser');
             return;
         }
-
         if (this.isListening) {
             this.stopListening();
         } else {
@@ -96,9 +148,11 @@ class DALIClient {
 
     startListening() {
         try {
-            this.recognition.start();
-        } catch (error) {
-            console.error('Start listening error:', error);
+            if (this.recognition && !this.isListening) {
+                this.recognition.start();
+            }
+        } catch (e) {
+            console.error('Start listening error:', e);
         }
     }
 
@@ -111,150 +165,54 @@ class DALIClient {
         }
     }
 
-    connect() {
-        try {
-            this.ws = new WebSocket(this.wsUrl);
-            
-            this.ws.onopen = () => this.onConnect();
-            this.ws.onmessage = (event) => this.onMessage(event);
-            this.ws.onerror = (error) => this.onError(error);
-            this.ws.onclose = () => this.onDisconnect();
-            
-        } catch (error) {
-            console.error('WebSocket error:', error);
-            this.updateStatus(false, 'Connection Failed');
-        }
+    showListeningAnimation() {
+        this.micBtn.classList.add('active');
     }
 
-    onConnect() {
-        this.isConnected = true;
-        this.updateStatus(true, 'Connected');
-        this.messageInput.disabled = false;
-        this.sendBtn.disabled = false;
-        this.micBtn.disabled = false;
-        this.speakerBtn.disabled = false;
-        
-        const welcomeMsg = document.querySelector('.welcome-message');
-        if (welcomeMsg) welcomeMsg.remove();
-        
-        this.addSystemMessage('✅ Connected to DALI Assistant');
-    }
-
-    onMessage(event) {
-        try {
-            const data = JSON.parse(event.data);
-            console.log('Received:', data);
-
-            switch(data.type) {
-                case 'system':
-                    this.addSystemMessage(data.message);
-                    break;
-                
-                case 'response':
-                    this.hideTypingIndicator();
-                    this.addBotMessage(data.message);
-                    
-                    if (data.speak && this.ttsEnabled) {
-                        this.speak(data.message);
-                    }
-                    
-                    if (data.language) {
-                        this.updateLanguage(data.language);
-                    }
-                    break;
-                
-                case 'error':
-                    this.hideTypingIndicator();
-                    this.addSystemMessage(`❌ ${data.message}`);
-                    break;
-            }
-        } catch (error) {
-            console.error('Parse error:', error);
-        }
-    }
-
-    speak(text) {
-        this.synth.cancel();
-        
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.rate = 1.0;
-        utterance.pitch = 1.0;
-        utterance.volume = 1.0;
-        
-        const voices = this.synth.getVoices();
-        const englishVoice = voices.find(v => v.lang.startsWith('en'));
-        if (englishVoice) {
-            utterance.voice = englishVoice;
-        }
-        
-        this.synth.speak(utterance);
+    hideListeningAnimation() {
+        this.micBtn.classList.remove('active');
     }
 
     toggleTTS() {
         this.ttsEnabled = !this.ttsEnabled;
-        
-        if (this.isConnected) {
-            this.ws.send(JSON.stringify({
-                type: 'toggle_tts',
-                enabled: this.ttsEnabled
-            }));
-        }
-        
         this.speakerBtn.textContent = this.ttsEnabled ? '🔊' : '🔇';
         this.speakerBtn.classList.toggle('muted', !this.ttsEnabled);
-        
-        this.addSystemMessage(
-            this.ttsEnabled ? '🔊 Voice output enabled' : '🔇 Voice output disabled'
-        );
+        this.addSystemMessage(this.ttsEnabled ? '🔊 Voice output enabled' : '🔇 Voice output disabled');
+        if (this.isConnected) {
+            this.ws.send(JSON.stringify({ type: 'toggle_tts', enabled: this.ttsEnabled }));
+        }
     }
 
     sendMessage() {
         const message = this.messageInput.value.trim();
-        
         if (!message || !this.isConnected) return;
-
         this.addUserMessage(message);
         this.messageInput.value = '';
         this.showTypingIndicator();
-
-        console.log('Sending:', message);
-        this.ws.send(JSON.stringify({
-            type: 'text',
-            message: message
-        }));
+        this.ws.send(JSON.stringify({ type: 'text', message }));
     }
 
     addUserMessage(text) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = 'message user';
-        messageDiv.innerHTML = `
-            <div>
-                <div class="message-content">${this.escapeHtml(text)}</div>
-                <div class="message-time">${this.getCurrentTime()}</div>
-            </div>
-        `;
-        this.chatContainer.appendChild(messageDiv);
+        const div = document.createElement('div');
+        div.className = 'message user';
+        div.innerHTML = `<div><div class="message-content">${this.escapeHtml(text)}</div><div class="message-time">${this.getCurrentTime()}</div></div>`;
+        this.chatContainer.appendChild(div);
         this.scrollToBottom();
     }
 
     addBotMessage(text) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = 'message bot';
-        messageDiv.innerHTML = `
-            <div>
-                <div class="message-content">${this.escapeHtml(text)}</div>
-                <div class="message-time">${this.getCurrentTime()}</div>
-            </div>
-        `;
-        this.chatContainer.appendChild(messageDiv);
+        const div = document.createElement('div');
+        div.className = 'message bot';
+        div.innerHTML = `<div><div class="message-content">${this.escapeHtml(text)}</div><div class="message-time">${this.getCurrentTime()}</div></div>`;
+        this.chatContainer.appendChild(div);
         this.scrollToBottom();
     }
 
     addSystemMessage(text) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = 'system-message';
-        messageDiv.textContent = text;
-        this.chatContainer.appendChild(messageDiv);
+        const div = document.createElement('div');
+        div.className = 'system-message';
+        div.textContent = text;
+        this.chatContainer.appendChild(div);
         this.scrollToBottom();
     }
 
@@ -281,10 +239,7 @@ class DALIClient {
     }
 
     getCurrentTime() {
-        return new Date().toLocaleTimeString('en-US', { 
-            hour: '2-digit', 
-            minute: '2-digit'
-        });
+        return new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
     }
 
     escapeHtml(text) {
@@ -308,8 +263,7 @@ class DALIClient {
     }
 }
 
-// Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    const client = new DALIClient();
-    console.log('✅ DALI Client with Voice Input initialized');
+    window.daliClient = new DALIClient();
+    console.log('✅ DALI Client with Voice Input Initialized');
 });
