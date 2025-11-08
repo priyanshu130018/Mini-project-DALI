@@ -1,0 +1,70 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+
+# Python egg and distribution files
+*.egg-info/
+dist/
+build/
+
+# SQLite database file
+conversations.db
+
+# VSCode settings folder
+.vscode/
+
+# PyCharm project files
+.idea/
+
+# Logs and runtime files
+*.log
+*.pid
+*.swp
+
+# macOS system files
+.DS_Store
+
+# Python compiled shared libraries
+*.so
+
+# C extensions
+*.c
+
+# Rasa specific
+rasa/models/
+rasa/__pycache__/
+rasa/__pycache__
+
+# Backend models
+model/
+
+# Node modules (if frontend uses npm)
+node_modules/
+
+# Frontend build output
+dist/
+build/
+
+# Others
+*.bak
+*.tmp
+
+# Ignore coverage reports
+htmlcov/
+.coverage
+
+# Ignore Pipenv files
+Pipfile.lock
+
+# Ignore dotenv environment variable files
+.env
+
+
+config.json
