@@ -8,6 +8,7 @@ venv/
 env/
 ENV/
 .venv/
+.env
 
 # Python egg and distribution files
 *.egg-info/
@@ -16,6 +17,8 @@ build/
 
 # SQLite database file
 conversations.db
+
+backend/conversations.db
 
 # VSCode settings folder
 .vscode/
@@ -42,6 +45,10 @@ rasa/models/
 rasa/__pycache__/
 rasa/__pycache__
 
+
+__pycache__/
+
+
 # Backend models
 model/
 
@@ -63,9 +70,8 @@ htmlcov/
 # Ignore Pipenv files
 Pipfile.lock
 
-# Ignore dotenv environment variable files
-.env
 
 rasa/
 
-Backend/config.json/
+backend/config.json/
+
