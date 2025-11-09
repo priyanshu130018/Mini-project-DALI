@@ -66,5 +66,6 @@ Pipfile.lock
 # Ignore dotenv environment variable files
 .env
 
+rasa/
 
-config.json
+config.json/

@@ -3,14 +3,19 @@
 import sqlite3
 from datetime import datetime, timedelta
 from contextlib import contextmanager
-import os
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
 class ConversationDB:
     def __init__(self, db_path="conversations.db"):
-        """Initialize database connection and create tables if needed"""
+        if db_path is None:
+            """Initialize database connection and create tables if needed"""
+            # Get the folder where this file (database.py) is located
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            db_path = os.path.join(base_dir, "conversations.db")
+        
         self.db_path = db_path
         self.create_tables()
         logger.info(f"Database initialized at {db_path}")
@@ -109,7 +114,7 @@ class ConversationDB:
                 UPDATE sessions 
                 SET end_time = ?
                 WHERE session_id = ?
-            """, (datetime.now(), session_id))
+            """,(datetime.now(), session_id))
     
     def log_language_switch(self, session_id, from_lang, to_lang):
         """Log a language switch event"""

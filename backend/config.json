@@ -1,7 +1,7 @@
 {
   "model_paths": {
-    "english": "model/vosk-model-en-in-0.5",
-    "hindi": "model/vosk-model-hi-0.22"
+    "english": "C:/Users/13ver/Desktop/New folder/project/Mini-project DALI/model/vosk-model-en-in-0.5",
+    "hindi": "C:/Users/13ver/Desktop/New folder/project/Mini-project DALI/model/vosk-model-hi-0.22"
   },
   "rasa_url": "http://localhost:5005/webhooks/rest/webhook",
   "sample_rate": 16000,
@@ -14,5 +14,9 @@
     "path": "conversations.db",
     "auto_cleanup_days": 30,
     "enable_export": true
-  }
+  },
+  "picovoice_access_key": "2zJsHZCog/YWXOoseW5dj2pbiPkdwfclv57CXrzBvvo+pbG0d5cKTg==",
+  "picovoice_keyword_paths": [
+    "wakeup_word/hello-dali_en_windows_v3_0_0.ppn"
+  ]
 }

@@ -133,9 +133,9 @@ body {
     border-radius: 18px;
     line-height: 1.5;
     display: inline-block;
-    word-break: keep-all;       /* KEEP words together */
+    word-break: keep-all;       
     overflow-wrap: normal;
-    white-space: pre-wrap;      /* Preserve spaces, wrap only at spaces */
+    white-space: pre-wrap;      
     min-width: 80px;
 }
 
